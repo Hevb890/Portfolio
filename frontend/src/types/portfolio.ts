@@ -1,6 +1,6 @@
 export type NodeKind = "hub" | "about" | "projects" | "case" | "contact" | "experience" | "publication";
 export type CaseArt = "mobile" | "dashboard" | "system";
-export type DetailKind = "article" | "talk" | "paper"
+export type DetailKind = "article" | "talk" | "paper" | "project" | "publication" | "internship" | "consultancy" | "fulltime"
 
 export interface Point {
   x: number;
@@ -15,11 +15,13 @@ export interface Metric {
 export interface DetailItem {
   id: string;
   label: string;
+  title: string;
   kind: DetailKind;
   venue: string;
   year: number;
   summary: string;
   url?: string;
+  awards?: readonly string[];
 }
 
 export interface GraphNode {

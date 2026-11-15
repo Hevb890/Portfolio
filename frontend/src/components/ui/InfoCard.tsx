@@ -16,9 +16,19 @@ export function InfoCard({ node, neighbors, detail, onSelect, onSelectDetail }: 
     return (
       <section className={s.card} aria-live="polite" aria-labelledby="node-title">
         <small className={s.cardKicker}>{KIND_LABEL[detail.kind]} · {detail.year}</small>
-        <h2 id="node-title" className={s.cardTitle}>{detail.label}</h2>
+        <h2 id="node-title" className={s.cardTitle}>{detail.title}</h2>
         <p className={s.cardMeta}>{detail.venue}</p>
         <p className={s.cardText}>{detail.summary}</p>
+        {detail.awards?.length ? (
+          <>
+            <p className={s.sectionLabel}>Awards</p>
+            <ul className={s.awards}>
+              {detail.awards.map((award) => (
+                <li key={award} className={s.award}>{award}</li>
+              ))}
+            </ul>
+          </>
+        ) : null}
         <div className={s.links}>
           {detail.url ? (
             <a className={s.linkPrimary} href={detail.url} target="_blank" rel="noopener noreferrer">Read →</a>

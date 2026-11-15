@@ -11,6 +11,11 @@ export const KIND_LABEL: Record<DetailKind, string> = {
   article: "Article",
   talk: "Talk",
   paper: "Paper",
+  project: "Project",
+  publication: "Publication",
+  internship: "Internship",
+  consultancy: "Consultancy",
+  fulltime: "Full-time",
 };
 
 function Glyph({ kind }: { kind: DetailKind }) {
@@ -21,6 +26,16 @@ function Glyph({ kind }: { kind: DetailKind }) {
       return <path className={s.iconInk} d="M-8 -6h16v10h-9l-5 4v-4h-2z" strokeWidth={2.5} />;
     case "paper":
       return <path className={s.iconInk} d="M-5 -8h7l4 4v12h-11zM-2 1h5M-2 5h5" strokeWidth={2.5} />;
+    case "project":
+      return <path className={s.iconInk} d="M-6 -6h12v12h-12z" />;
+    case "publication":
+      return <path className={s.iconInk} d="M-6 -5h12M-6 0h12M-6 5h7" />;
+    case "internship":
+      return <path className={s.iconInk} d="M-6 -6h12v12h-12z" />;
+    case "consultancy":
+      return <path className={s.iconInk} d="M-6 -6h12v12h-12z" />;
+    case "fulltime":
+      return <path className={s.iconInk} d="M-6 -6h12v12h-12z" />;
   }
 }
 
