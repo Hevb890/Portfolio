@@ -4,6 +4,7 @@ import { cx } from "@/lib/cx";
 import type { PortfolioData } from "@/types/portfolio";
 import { GraphNodeView, type NodeState } from "./GraphNodeView";
 import s from "./graph.module.css";
+import {DetailLayer} from "@/components/graph/DetailLayer";
 
 interface GraphCanvasProps {
   data: PortfolioData;
@@ -12,13 +13,15 @@ interface GraphCanvasProps {
   markerRef: RefObject<SVGCircleElement>;
   onSelect: (index: number) => void;
   className?: string;
+  detailId: string | null;
+  onSelectDetail: (id: string) => void;
 }
 
 const PILL_BASE_WIDTH = 40;
 const STEP_EXTRA_WIDTH = 10;
 const CHAR_WIDTH = 7.4;
 
-function GraphCanvasBase({ data, activeIndex, worldRef, markerRef, onSelect, className }: GraphCanvasProps) {
+function GraphCanvasBase({ data, activeIndex, worldRef, markerRef, onSelect, className, detailId, onSelectDetail }: GraphCanvasProps) {
   const { nodes, satellites, owner } = data;
   const edges = useMemo(() => buildEdges(nodes), [nodes]);
   const nodeById = useMemo(() => new Map(nodes.map((node) => [node.id, node])), [nodes]);
@@ -61,7 +64,11 @@ function GraphCanvasBase({ data, activeIndex, worldRef, markerRef, onSelect, cla
             </g>
           );
         })}
-
+        {nodes.map((node, index) =>
+          node.details?.length ? (
+            <DetailLayer key={`details-${node.id}`} node={node} visible={index === activeIndex} selectedId={detailId} onSelect={onSelectDetail} />
+          ) : null,
+        )}
         <circle ref={markerRef} className={s.marker} r={0} />
 
         {nodes.map((node, index) => (

@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GraphCanvas } from "@/components/graph/GraphCanvas";
 import { InfoCard } from "@/components/ui/InfoCard";
 import { useCameraLoop } from "@/hooks/useCameraLoop";
@@ -22,8 +22,21 @@ export default function PortfolioExperience({ data }: { data: PortfolioData }) {
   const markerRef = useRef<SVGCircleElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
   const motion = useRef<MotionState>({ velocity: 0, direction: 1, atNode: true });
+  const [detailId, setDetailId] = useState<string | null>(null);
 
-  useCameraLoop({ nodes, worldRef, markerRef, barRef, motion, onActiveChange: setActiveIndex });
+  const handleActiveChange = useCallback((index: number) => {
+    setActiveIndex(index);
+    setDetailId(null); // leaving a node closes its detail view
+  }, []);
+  useCameraLoop({ nodes, worldRef, markerRef, barRef, motion, onActiveChange: handleActiveChange });
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setDetailId(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   const selectIndex = useCallback((index: number) => scrollToNode(index, nodes.length), [nodes.length]);
   const selectId = useCallback(
@@ -35,6 +48,7 @@ export default function PortfolioExperience({ data }: { data: PortfolioData }) {
   );
 
   const activeNode = nodes[activeIndex] ?? nodes[0];
+  const activeDetail = activeNode?.details?.find((item) => item.id === detailId) ?? null;
   const neighbors = useMemo(() => getNeighbors(nodes, activeIndex), [nodes, activeIndex]);
   if (!activeNode) return null;
 
@@ -47,9 +61,11 @@ export default function PortfolioExperience({ data }: { data: PortfolioData }) {
           className={s.svg}
           data={data}
           activeIndex={activeIndex}
+          detailId={detailId}
           worldRef={worldRef}
           markerRef={markerRef}
           onSelect={selectIndex}
+          onSelectDetail={setDetailId}
         />
       </div>
       <AvatarCanvas motion={motion} className={s.avatar} />
@@ -60,7 +76,7 @@ export default function PortfolioExperience({ data }: { data: PortfolioData }) {
         <span className={s.hudMuted}>{activeIndex + 1} / {nodes.length}</span>
       </header>
 
-      <InfoCard node={activeNode} neighbors={neighbors} onSelect={selectId} />
+      <InfoCard node={activeNode} neighbors={neighbors} detail={activeDetail} onSelect={selectId} onSelectDetail={setDetailId} />
       {activeIndex === 0 && <p className={s.hint}>Scroll or click a node ↓</p>}
 
       <nav aria-label="Portfolio sections" className={s.srOnly}>

@@ -74,10 +74,8 @@ function Experience({ badge }: { badge?: string }) {
     <>
       <rect className={s.ring} x={-40} y={-34} width={80} height={68} rx={20} />
       <g className={s.body}>
-        {/* back card suggests a stack of roles */}
         <rect className={s.fillMint} x={-34} y={-38} width={72} height={60} rx={20} transform="rotate(-6)" />
         <rect className={cx(s.fillCard, s.outline)} x={-36} y={-30} width={72} height={60} rx={18} />
-        {/* briefcase */}
         <path className={s.iconInk} d="M-9 -9v-5a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v5" />
         <rect className={s.iconInk} x={-18} y={-9} width={36} height={24} rx={6} />
         <path className={s.iconInk} d="M-18 2h36" />
@@ -98,28 +96,24 @@ function Publication({ badge }: { badge?: string }) {
     <>
       <rect className={s.ring} x={-34} y={-44} width={68} height={88} rx={12} />
       <g className={s.body}>
-        {/* back page */}
         <rect className={s.fillMint} x={-26} y={-44} width={58} height={80} rx={10} transform="rotate(6)" />
-        {/* page with folded corner */}
         <path
           className={cx(s.fillCard, s.outline)}
           d="M-22 -42H12L30 -24V34a8 8 0 0 1-8 8H-22a8 8 0 0 1-8-8V-34a8 8 0 0 1 8-8Z"
           strokeLinejoin="round"
         />
         <path className={s.fillSoft} d="M12 -42V-30a6 6 0 0 0 6 6H30Z" />
-        {/* title + text lines */}
         <rect className={s.fillAccent} x={-20} y={-28} width={26} height={6} rx={3} />
         <rect className={s.fillEdge} x={-20} y={-14} width={40} height={4} rx={2} />
         <rect className={s.fillEdge} x={-20} y={-6} width={40} height={4} rx={2} />
         <rect className={s.fillEdge} x={-20} y={2} width={28} height={4} rx={2} />
-        {/* figure */}
         <rect className={s.fillMint} x={-20} y={12} width={40} height={16} rx={4} />
         <rect className={s.fillAccent} x={-14} y={19} width={6} height={6} rx={2} />
         <rect className={s.fillAccent} x={-4} y={16} width={6} height={9} rx={2} />
         <rect className={s.fillAccent} x={6} y={13} width={6} height={12} rx={2} />
         {badge ? (
           <>
-            <rect className={s.fillInk} x={14} y={30} width={50} height={22} rx={11} />
+            <rect className={s.fillInk} x={8} y={30} width={62} height={22} rx={11} />
             <text className={s.badgeText} x={39} y={45}>{badge}</text>
           </>
         ) : null}

@@ -35,3 +35,7 @@
   .metrics { margin-bottom: 10px; }
 }
 @media (prefers-reduced-motion: reduce) { .hint { animation: none; } }
+
+.cardMeta { margin: 0 0 8px; color: var(--accent); font-size: 13px; font-weight: 600; }
+.linkPrimary { display: inline-flex; align-items: center; min-height: 36px; padding: 8px 14px; color: var(--surface); font-size: 13px; font-weight: 600; text-decoration: none; background: var(--accent); border-radius: 99px; }
+.sectionLabel { margin: 0 0 8px; color: var(--muted); font-size: 12px; font-weight: 600; }

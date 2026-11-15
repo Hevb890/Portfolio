@@ -18,7 +18,7 @@ export const portfolioData: PortfolioData = {
             aspects of computational social sciences with agent based technology.
             Scroll, or click any node, to explore my work.
         `,
-      position: { x: 200, y: 330 },
+      position: { x: 520, y: 0 },
       metrics: [
         { value: "1+  yrs", label: "Experience" },
         { value: "12", label: "Projects" },
@@ -63,12 +63,12 @@ export const portfolioData: PortfolioData = {
       label: "Experience",
       title: "My Experience",
       summary:
-        "A repeatable loop: understand people, frame the problem, explore, prototype, then test and refine.",
+        "I have one year of hands-on industry experience at well reputed company in Sri Lanka as 6 month Intern and 6 month Consultant. I mainly worked in Data and AI team, building AI and data solutions based on customer requirements.",
       position: { x: 500, y: 500 },
       metrics: [
-        { value: "5", label: "stages" },
-        { value: "Weekly", label: "user tests" },
-        { value: "Data +", label: "empathy" },
+        { value: "3", label: "Production-Level Projects" },
+        { value: "3", label: "POC Level Projects" },
+        { value: "1", label: "Certifications Earned" },
       ],
       links: [],
     },
@@ -78,14 +78,24 @@ export const portfolioData: PortfolioData = {
       label: "Publication",
       title: "My Publication",
       summary:
-        "A repeatable loop: understand people, frame the problem, explore, prototype, then test and refine.",
+        "My pubications are mainly focused on computation social science with agent based technology.",
       position: { x: 360, y: 500 },
       metrics: [
-        { value: "5", label: "stages" },
-        { value: "Weekly", label: "user tests" },
-        { value: "Data +", label: "empathy" },
+        { value: "1", label: "Publications" },
+        { value: "1", label: "Awards" },
       ],
       links: [],
+      details: [
+       {
+          id: "pub-onboarding",
+          label: "Onboarding UX",
+          kind: "article",
+          venue: "UX Collective",
+          year: 2025,
+          summary: "How cutting nine sign-up steps to four lifted activation, and the error-state copy rules behind it.",
+          url: "https://example.com/onboarding",
+        },
+      ]
     },
     {
       id: "case-onboarding",
@@ -144,20 +154,17 @@ export const portfolioData: PortfolioData = {
       label: "Contact",
       title: "Let’s work together",
       summary:
-        "Open to full-time roles and freelance work. hello@yourname.com · Behance · LinkedIn · Dribbble.",
-      position: { x: -100, y: 500 },
+        "Open to full-time AI / ML / Agentic roles. hevinduharshana@gmail.com· Behance · LinkedIn · Dribbble.",
+      position: { x: -100, y: 150 },
       metrics: [
         { value: "Open", label: "to work" },
-        { value: "< 24h", label: "reply" },
-        { value: "UTC+5:30", label: "timezone" },
+        { value: "LinkedIn", label: "Hevindu Tilakasena" },
+        { value: "Github", label: "Hevb890" },
       ],
       links: [],
     },
   ],
   satellites: [
-    { label: "Figma", parentId: "about", offset: { x: -120, y: -70 } },
-    { label: "FigJam", parentId: "about", offset: { x: 30, y: -100 } },
-    { label: "Maze", parentId: "about", offset: { x: 150, y: -40 } },
     { label: "Research", parentId: "process", offset: { x: -140, y: 120 }, step: 1 },
     { label: "Define", parentId: "process", offset: { x: -60, y: 170 }, step: 2 },
     { label: "Ideate", parentId: "process", offset: { x: 60, y: 170 }, step: 3 },

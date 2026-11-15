@@ -45,3 +45,16 @@
   .spin, .edgeActive, .node[data-state="active"] .ring { animation: none; }
   .body, .edge { transition: none; }
 }
+
+.tetherDetail { opacity: 0; transition: opacity 0.35s; }
+.tetherDetail[data-visible="true"] { opacity: 1; }
+.detail { cursor: pointer; outline: none; opacity: 0; pointer-events: none; transition: opacity 0.35s; }
+.detail[data-visible="true"] { opacity: 1; pointer-events: auto; }
+.detail:focus-visible { filter: drop-shadow(0 0 4px var(--accent)); }
+.detailBody { transition: transform 0.2s; transform-origin: 0 0; }
+.detail:hover .detailBody { transform: scale(1.05); }
+.detail[data-selected="true"] .outline { stroke: var(--accent); }
+.detail[data-selected="true"] .detailBody { transform: scale(1.08); }
+.detailLabel { fill: var(--ink); font-size: 12px; font-weight: 700; text-anchor: start; }
+.detailMeta { fill: var(--muted); font-size: 11px; text-anchor: start; }
+@media (prefers-reduced-motion: reduce) { .detail, .tetherDetail, .detailBody { transition: none; } }
