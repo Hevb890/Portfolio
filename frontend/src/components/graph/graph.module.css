@@ -1,0 +1,47 @@
+.fillAccent { fill: var(--accent); }
+.fillGrey { fill: var(--grey-500); }
+.fillCard { fill: var(--surface); }
+.fillSoft { fill: var(--grey-100); }
+.fillMint { fill: var(--green-200); }
+.fillInk { fill: var(--ink); }
+.fillEdge { fill: var(--line); }
+.outline { stroke: var(--line); stroke-width: 3; }
+.iconInk { fill: none; stroke: var(--ink); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.iconGrey { fill: none; stroke: var(--grey-500); stroke-width: 3.5; }
+.iconOnAccent { fill: none; stroke: var(--surface); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.orbit { fill: none; stroke: var(--line); stroke-width: 2; stroke-dasharray: 3 7; }
+.glow { fill: none; stroke: var(--surface); opacity: 0.4; stroke-width: 2; }
+.initials { fill: var(--surface); font-size: 26px; font-weight: 700; text-anchor: middle; }
+.stepNumber, .badgeText { fill: var(--surface); font-size: 11px; font-weight: 700; text-anchor: middle; }
+.badgeText { font-size: 12px; }
+.pill { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+.pillLabel { fill: var(--muted); font-size: 12px; font-weight: 600; text-anchor: middle; }
+.tether { stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 4 6; }
+.edge { fill: none; stroke: var(--line); stroke-width: 2; transition: stroke 0.3s; }
+.edgeActive { stroke: var(--accent); stroke-width: 3; stroke-dasharray: 10 8; animation: flow 1s linear infinite; }
+.marker { fill: var(--accent); }
+
+.node { cursor: pointer; outline: none; filter: drop-shadow(0 6px 10px rgba(31, 42, 36, 0.1)); }
+.node:focus-visible { filter: drop-shadow(0 0 4px var(--accent)); }
+.node[data-state="active"] { filter: drop-shadow(0 0 14px var(--accent-glow)); }
+.node[data-state="active"] .outline { stroke: var(--accent); }
+.node[data-state="visited"] .outline { stroke: var(--green-400); }
+.body { transition: transform 0.3s; transform-origin: 0 0; }
+.node:hover .body { transform: scale(1.06); }
+.node[data-state="active"] .body { transform: scale(1.1); }
+.label { fill: var(--muted); font-size: 15px; font-weight: 600; text-anchor: middle; }
+.node[data-state="active"] .label { fill: var(--ink); }
+
+.ring { fill: none; stroke: var(--accent); stroke-width: 2; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.node[data-state="active"] .ring { animation: pulse 2s ease-out infinite; }
+.spin { animation: spin 10s linear infinite; transform-origin: 0 0; }
+.spinFast { animation-duration: 6s; }
+
+@keyframes pulse { 0% { opacity: 0.8; transform: scale(1); } 100% { opacity: 0; transform: scale(1.35); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes flow { to { stroke-dashoffset: -18; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .spin, .edgeActive, .node[data-state="active"] .ring { animation: none; }
+  .body, .edge { transition: none; }
+}
