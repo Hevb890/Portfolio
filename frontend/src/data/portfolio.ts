@@ -79,7 +79,7 @@ export const portfolioData: PortfolioData = {
           kind: "internship",
           venue: "H One (pvt) Ltd, Colombo, Sri Lanka",
           year: 2025,
-          summary: "Worked as an Intern in Data and AI team, mainly worked on building AI and data solutions based on customer requirements.",
+          summary: "Worked as an Intern in Data and AI team, mainly worked on building POC level AI and data solutions based on customer requirements.",
         },
         {
           id: "experience-2",
@@ -133,8 +133,21 @@ export const portfolioData: PortfolioData = {
         { value: "10 wks", label: "timeline" },
       ],
       links: ["case-system"],
-      badge: "+38%",
       caseArt: "mobile",
+      project: {
+        role: "Lead UX Designer",
+        team: "2 designers · 4 engineers · 1 PM",
+        duration: "10 weeks",
+        challenge: "Nine sign-up and KYC steps caused most new users to quit before their account was activated.",
+        solution:
+          "Cut the flow to four steps, moved ID upload behind progressive disclosure, and rewrote every error state with a clear recovery action.",
+        highlights: [
+          "Task-based usability tests with 18 participants",
+          "Prototype refined over three test rounds",
+          "Error-message library reused in five other flows",
+        ],
+        technologies: ["Figma", "FigJam", "Maze", "Lottie", "React Native", "Storybook", "Mixpanel", "Notion"],
+      },
     },
     {
       id: "case-dashboard",

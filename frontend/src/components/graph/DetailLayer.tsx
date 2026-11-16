@@ -4,7 +4,7 @@ import { detailPositions } from "@/lib/graph";
 import type { DetailItem, DetailKind, GraphNode } from "@/types/portfolio";
 import s from "./graph.module.css";
 
-const WIDTH = 150;
+const WIDTH = 200;
 const HEIGHT = 46;
 
 export const KIND_LABEL: Record<DetailKind, string> = {

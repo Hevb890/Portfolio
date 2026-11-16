@@ -24,6 +24,15 @@ export interface DetailItem {
   awards?: readonly string[];
 }
 
+export interface ProjectDetails {
+  role: string;
+  team: string;
+  duration?: string;
+  challenge?: string;
+  solution?: string;
+  highlights: readonly string[];
+  technologies: readonly string[];
+}
 export interface GraphNode {
   id: string;
   kind: NodeKind;
@@ -39,6 +48,7 @@ export interface GraphNode {
   badge?: string;
   caseArt?: CaseArt;
   details?: readonly DetailItem[];
+  project?: ProjectDetails;
 }
 
 export interface Satellite {

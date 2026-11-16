@@ -1,6 +1,8 @@
+import { useEffect, useRef } from "react";
 import { KIND_LABEL } from "@/components/graph/DetailLayer";
 import type { DetailItem, GraphNode } from "@/types/portfolio";
 import s from "../experience.module.css";
+import { ProjectPanels } from "./ProjectPanels";
 
 interface InfoCardProps {
   node: GraphNode;
@@ -12,9 +14,16 @@ interface InfoCardProps {
 }
 
 export function InfoCard({ node, neighbors, detail, onSelect, onSelectDetail }: InfoCardProps) {
+  const cardRef = useRef<HTMLElement>(null);
+
+  // The card scrolls, so return to the top whenever its content changes.
+  useEffect(() => {
+    cardRef.current?.scrollTo({ top: 0 });
+  }, [node.id, detail?.id]);
+
   if (detail) {
     return (
-      <section className={s.card} aria-live="polite" aria-labelledby="node-title">
+      <section ref={cardRef} className={s.card} tabIndex={0} aria-live="polite" aria-labelledby="node-title">
         <small className={s.cardKicker}>{KIND_LABEL[detail.kind]} · {detail.year}</small>
         <h2 id="node-title" className={s.cardTitle}>{detail.title}</h2>
         <p className={s.cardMeta}>{detail.venue}</p>
@@ -42,7 +51,7 @@ export function InfoCard({ node, neighbors, detail, onSelect, onSelectDetail }: 
   }
 
   return (
-    <section className={s.card} aria-live="polite" aria-labelledby="node-title">
+    <section ref={cardRef} className={s.card} tabIndex={0} aria-live="polite" aria-labelledby="node-title">
       <small className={s.cardKicker}>{node.label}</small>
       <h2 id="node-title" className={s.cardTitle}>{node.title}</h2>
       <p className={s.cardText}>{node.summary}</p>
@@ -54,6 +63,7 @@ export function InfoCard({ node, neighbors, detail, onSelect, onSelectDetail }: 
           </div>
         ))}
       </dl>
+      {node.project ? <ProjectPanels project={node.project} /> : null}
       {node.details?.length ? (
         <>
           <p className={s.sectionLabel}>Explore</p>
