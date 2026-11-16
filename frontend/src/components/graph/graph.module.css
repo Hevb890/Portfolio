@@ -58,3 +58,5 @@
 .detailLabel { fill: var(--ink); font-size: 12px; font-weight: 700; text-anchor: start; }
 .detailMeta { fill: var(--muted); font-size: 11px; text-anchor: start; }
 @media (prefers-reduced-motion: reduce) { .detail, .tetherDetail, .detailBody { transition: none; } }
+
+.netLine { stroke: var(--line); stroke-width: 1.5; }

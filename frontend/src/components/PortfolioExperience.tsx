@@ -10,6 +10,7 @@ import { scrollToNode } from "@/lib/scroll";
 import type { MotionState } from "@/types/motion";
 import type { PortfolioData } from "@/types/portfolio";
 import s from "./experience.module.css";
+import { ProjectsDialog } from "@/components/ui/ProjectsDialog";
 
 // three.js needs the browser, so the avatar is loaded on the client only.
 const AvatarCanvas = dynamic(() => import("@/components/avatar/AvatarCanvas"), { ssr: false });
@@ -24,10 +25,28 @@ export default function PortfolioExperience({ data }: { data: PortfolioData }) {
   const motion = useRef<MotionState>({ velocity: 0, direction: 1, atNode: true });
   const [detailId, setDetailId] = useState<string | null>(null);
 
+  const [projectsOpen, setProjectsOpen] = useState(false);
+  const activeRef = useRef(0);
+
+  const selectNode = useCallback(
+    (index: number) => {
+      if (index === activeRef.current && nodes[index]?.collection) {
+        setProjectsOpen(true);
+        return;
+      }
+      scrollToNode(index, nodes.length);
+    },
+    [nodes],
+  );
+
+  const closeProjects = useCallback(() => setProjectsOpen(false), []);
+
   const handleActiveChange = useCallback((index: number) => {
+    activeRef.current = index;
     setActiveIndex(index);
     setDetailId(null); // leaving a node closes its detail view
   }, []);
+
   useCameraLoop({ nodes, worldRef, markerRef, barRef, motion, onActiveChange: handleActiveChange });
 
   useEffect(() => {
@@ -64,7 +83,7 @@ export default function PortfolioExperience({ data }: { data: PortfolioData }) {
           detailId={detailId}
           worldRef={worldRef}
           markerRef={markerRef}
-          onSelect={selectIndex}
+          onSelect={selectNode}
           onSelectDetail={setDetailId}
         />
       </div>
@@ -76,14 +95,17 @@ export default function PortfolioExperience({ data }: { data: PortfolioData }) {
         <span className={s.hudMuted}>{activeIndex + 1} / {nodes.length}</span>
       </header>
 
-      <InfoCard node={activeNode} neighbors={neighbors} detail={activeDetail} onSelect={selectId} onSelectDetail={setDetailId} />
+      <InfoCard node={activeNode} neighbors={neighbors} detail={activeDetail} onSelect={selectId} onSelectDetail={setDetailId} onOpenProjects={() => setProjectsOpen(true)} />
+      {activeNode.collection ? (
+        <ProjectsDialog title={activeNode.title} collection={activeNode.collection} open={projectsOpen} onClose={closeProjects} />
+      ) : null}
       {activeIndex === 0 && <p className={s.hint}>Scroll or click a node ↓</p>}
 
       <nav aria-label="Portfolio sections" className={s.srOnly}>
         <ol>
           {nodes.map((node, index) => (
             <li key={node.id}>
-              <button type="button" onClick={() => selectIndex(index)}>{node.title}</button>
+              <button type="button" onClick={() => selectNode(index)}>{node.title}</button>
             </li>
           ))}
         </ol>

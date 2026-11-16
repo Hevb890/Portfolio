@@ -1,5 +1,6 @@
-export type NodeKind = "hub" | "about" | "projects" | "case" | "contact" | "experience" | "publication";
-export type CaseArt = "mobile" | "dashboard" | "system";
+export type NodeKind = "hub" | "about" | "projects" | "contact" | "experience" | "publication";
+export type ProjectArt = "ai" | "se";
+export type ProjectStatus = "Shipped" | "In progress" | "Prototype";
 export type DetailKind = "article" | "talk" | "paper" | "project" | "publication" | "internship" | "consultancy" | "fulltime"
 
 export interface Point {
@@ -24,15 +25,32 @@ export interface DetailItem {
   awards?: readonly string[];
 }
 
-export interface ProjectDetails {
-  role: string;
-  team: string;
-  duration?: string;
-  challenge?: string;
-  solution?: string;
-  highlights: readonly string[];
-  technologies: readonly string[];
+export interface ProjectLink {
+  label: string;
+  url: string;
 }
+
+/** One project, shown as a detailed card inside the projects dialog. */
+export interface ProjectItem {
+  id: string;
+  title: string;
+  year: number;
+  status: ProjectStatus;
+  role: string;
+  summary: string;
+  challenge: string;
+  approach: string;
+  outcome: string;
+  technologies: readonly string[];
+  links?: readonly ProjectLink[];
+}
+
+/** A group of projects (e.g. "AI-based"); the node card derives counts and technologies from it. */
+export interface ProjectCollection {
+  art: ProjectArt;
+  projects: readonly ProjectItem[];
+}
+
 export interface GraphNode {
   id: string;
   kind: NodeKind;
@@ -46,9 +64,8 @@ export interface GraphNode {
   links: readonly string[];
   /** Headline result shown as a badge on case-study nodes. */
   badge?: string;
-  caseArt?: CaseArt;
   details?: readonly DetailItem[];
-  project?: ProjectDetails;
+  collection?: ProjectCollection;
 }
 
 export interface Satellite {

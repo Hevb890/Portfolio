@@ -1,9 +1,7 @@
 import { cx } from "@/lib/cx";
-import type { CaseArt, GraphNode } from "@/types/portfolio";
+import type { ProjectArt, GraphNode } from "@/types/portfolio";
 import s from "./graph.module.css";
 
-const CASE_W = 176;
-const CASE_H = 124;
 
 function Hub({ initials }: { initials: string }) {
   return (
@@ -31,25 +29,6 @@ function About() {
         <circle className={s.iconInk} cx={0} cy={-8} r={9} />
         <path className={s.iconInk} d="M-17 22a17 14 0 0 1 34 0" />
         <circle className={s.fillAccent} cx={30} cy={-30} r={8} />
-      </g>
-    </>
-  );
-}
-
-function Projects() {
-  return (
-    <>
-      <circle className={s.ring} r={42} />
-      <g className={s.body}>
-        <polygon
-          className={cx(s.fillCard, s.outline)}
-          points="0,-42 36,-21 36,21 0,42 -36,21 -36,-21"
-          strokeLinejoin="round"
-        />
-        <g className={cx(s.spin, s.spinFast)}>
-          <circle className={s.iconGrey} r={14} strokeDasharray="62 26" />
-          <polygon className={s.fillAccent} points="12,-16 21,-8 9,-5" />
-        </g>
       </g>
     </>
   );
@@ -121,80 +100,58 @@ function Publication({ badge }: { badge?: string }) {
     </>
   );
 }
+const NET_LAYERS: ReadonlyArray<{ x: number; ys: readonly number[] }> = [
+  { x: -44, ys: [-8, 12, 32] },
+  { x: 0, ys: [-18, 2, 22, 42] },
+  { x: 44, ys: [2, 22] },
+];
 
-function MobileArt() {
+function AiGlyph() {
   return (
     <>
-      <rect className={cx(s.fillSoft, s.outline)} x={-58} y={-30} width={52} height={82} rx={10} />
-      <rect className={s.fillEdge} x={-48} y={-20} width={32} height={5} rx={2.5} />
-      <rect className={s.fillEdge} x={-48} y={-8} width={24} height={5} rx={2.5} />
-      <rect className={s.fillMint} x={-48} y={30} width={32} height={11} rx={5.5} />
-      <rect className={cx(s.fillCard, s.outline)} x={6} y={-30} width={52} height={82} rx={10} style={{ stroke: "var(--accent)" }} />
-      <circle className={s.fillAccent} cx={32} cy={-6} r={10} />
-      <polyline className={s.iconOnAccent} points="27,-6 31,-2 38,-11" />
-      <rect className={s.fillAccent} x={16} y={30} width={32} height={11} rx={5.5} />
+      {NET_LAYERS.slice(0, -1).flatMap((layer, li) => {
+        const next = NET_LAYERS[li + 1];
+        if (!next) return [];
+        return layer.ys.flatMap((y1) =>
+          next.ys.map((y2) => (
+            <line key={`${li}-${y1}-${y2}`} className={s.netLine} x1={layer.x} y1={y1} x2={next.x} y2={y2} />
+          )),
+        );
+      })}
+      {NET_LAYERS.flatMap((layer, li) =>
+        layer.ys.map((y, i) => (
+          <circle key={`${li}-${y}`} className={(li + i) % 2 === 0 ? s.fillAccent : s.fillGrey} cx={layer.x} cy={y} r={6} />
+        )),
+      )}
     </>
   );
 }
 
-function DashboardArt() {
+function CodeGlyph() {
   return (
     <>
-      <rect className={s.fillSoft} x={-80} y={-34} width={24} height={88} rx={8} />
-      <rect className={s.fillAccent} x={-46} y={-32} width={36} height={18} rx={6} />
-      <rect className={s.fillMint} x={-4} y={-32} width={36} height={18} rx={6} />
-      <rect className={s.fillSoft} x={38} y={-32} width={40} height={18} rx={6} />
-      <rect className={s.fillMint} x={-46} y={30} width={16} height={20} rx={4} />
-      <rect className={s.fillAccent} x={-20} y={16} width={16} height={34} rx={4} />
-      <rect className={s.fillMint} x={6} y={22} width={16} height={28} rx={4} />
-      <rect className={s.fillAccent} x={32} y={4} width={16} height={46} rx={4} />
-      <rect className={s.fillEdge} x={58} y={26} width={20} height={24} rx={4} />
+      <polyline className={s.iconInk} points="-20,-6 -38,10 -20,26" />
+      <polyline className={s.iconInk} points="20,-6 38,10 20,26" />
+      <path className={s.iconInk} d="M7 -10L-7 30" />
+      <circle className={s.fillAccent} cx={0} cy={42} r={3} />
     </>
   );
 }
 
-const TILE_TOP = [s.fillAccent, s.fillMint, s.fillSoft, s.fillAccent] as const;
-const TILE_BOTTOM = [s.fillSoft, s.fillAccent, s.fillMint, s.fillSoft] as const;
-
-function SystemArt() {
+function Projects({ art, count }: { art: ProjectArt; count: number }) {
   return (
     <>
-      {[0, 1, 2, 3].map((i) => (
-        <g key={i}>
-          <rect className={TILE_TOP[i]} x={-72 + i * 38} y={-32} width={32} height={26} rx={8} />
-          <rect className={TILE_BOTTOM[i]} x={-72 + i * 38} y={2} width={32} height={26} rx={8} />
-        </g>
-      ))}
-      <rect className={s.fillEdge} x={-72} y={38} width={144} height={12} rx={6} />
-    </>
-  );
-}
-
-const CASE_ART: Record<CaseArt, () => JSX.Element> = {
-  mobile: MobileArt,
-  dashboard: DashboardArt,
-  system: SystemArt,
-};
-
-function CaseCard({ art, badge }: { art: CaseArt; badge?: string }) {
-  const Art = CASE_ART[art];
-  return (
-    <>
-      <rect className={s.ring} x={-CASE_W / 2} y={-62} width={CASE_W} height={CASE_H} rx={18} />
+      <rect className={s.ring} x={-78} y={-56} width={156} height={112} rx={20} />
       <g className={s.body}>
-        <rect className={cx(s.fillCard, s.outline)} x={-88} y={-62} width={CASE_W} height={CASE_H} rx={18} />
-        <rect className={s.fillSoft} x={-86} y={-60} width={172} height={22} rx={16} />
-        <rect className={s.fillSoft} x={-86} y={-48} width={172} height={10} />
-        <circle className={s.fillAccent} cx={-72} cy={-50} r={3.5} />
-        <circle className={s.fillEdge} cx={-60} cy={-50} r={3.5} />
-        <circle className={s.fillEdge} cx={-48} cy={-50} r={3.5} />
-        <Art />
-        {badge ? (
-          <>
-            <rect className={s.fillInk} x={36} y={-76} width={60} height={26} rx={13} />
-            <text className={s.badgeText} x={66} y={-59}>{badge}</text>
-          </>
-        ) : null}
+        <rect className={cx(s.fillCard, s.outline)} x={-78} y={-56} width={156} height={112} rx={20} />
+        <rect className={s.fillSoft} x={-76} y={-54} width={152} height={22} rx={18} />
+        <rect className={s.fillSoft} x={-76} y={-44} width={152} height={12} />
+        <circle className={s.fillAccent} cx={-62} cy={-43} r={3.5} />
+        <circle className={s.fillEdge} cx={-50} cy={-43} r={3.5} />
+        <circle className={s.fillEdge} cx={-38} cy={-43} r={3.5} />
+        {art === "ai" ? <AiGlyph /> : <CodeGlyph />}
+        <rect className={s.fillInk} x={20} y={-70} width={84} height={26} rx={13} />
+        <text className={s.badgeText} x={62} y={-53}>{count} projects</text>
       </g>
     </>
   );
@@ -204,7 +161,6 @@ export const LABEL_Y: Record<GraphNode["kind"], number> = {
   hub: 86,
   about: 62,
   projects: 66,
-  case: 86,
   experience: 62,
   publication: 74,
   contact: 64,
@@ -216,15 +172,13 @@ export function NodeArt({ node, initials }: { node: GraphNode; initials: string 
       return <Hub initials={initials} />;
     case "about":
       return <About />;
-    case "projects":
-      return <Projects />;
     case "contact":
       return <Contact />;
     case "experience":
       return <Experience badge={node.badge} />;
     case "publication":
       return <Publication badge={node.badge} />;
-    case "case":
-      return <CaseCard art={node.caseArt ?? "system"} badge={node.badge} />;
+    case "projects":
+      return <Projects art={node.collection?.art ?? "se"} count={node.collection?.projects.length ?? 0} />;
   }
 }
