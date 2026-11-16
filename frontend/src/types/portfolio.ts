@@ -1,4 +1,4 @@
-export type NodeKind = "hub" | "about" | "projects" | "contact" | "experience" | "publication";
+export type NodeKind = "hub" | "about" | "projectsHub" | "projects" | "contact" | "experience" | "publication";
 export type ProjectArt = "ai" | "se";
 export type ProjectStatus = "Shipped" | "In progress" | "Prototype";
 export type DetailKind = "article" | "talk" | "paper" | "project" | "publication" | "internship" | "consultancy" | "fulltime"

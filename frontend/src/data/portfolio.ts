@@ -42,7 +42,17 @@ export const portfolioData: PortfolioData = {
       ],
       links: ["projects", "experience", "publication"],
     },
-        {
+    {
+      id: "projects",
+      kind: "projectsHub",
+      label: "Projects",
+      title: "Projects",
+      summary: "Two areas of work: AI-based products and software-engineering projects. Pick one to see the details.",
+      position: { x: 700, y: 500 },
+      metrics: [],
+      links: ["ai-projects", "se-projects"],
+    },
+    {
       id: "ai-projects",
       kind: "projects",
       label: "AI Projects",

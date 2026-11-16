@@ -100,6 +100,22 @@ function Publication({ badge }: { badge?: string }) {
     </>
   );
 }
+
+function ProjectsHub() {
+  return (
+    <>
+      <rect className={s.ring} x={-38} y={-38} width={76} height={76} rx={22} />
+      <g className={s.body}>
+        <rect className={s.fillMint} x={-34} y={-40} width={72} height={72} rx={22} transform="rotate(-8)" />
+        <rect className={cx(s.fillCard, s.outline)} x={-36} y={-36} width={72} height={72} rx={22} />
+        <rect className={s.fillAccent} x={-22} y={-22} width={20} height={20} rx={6} />
+        <rect className={s.fillMint} x={2} y={-22} width={20} height={20} rx={6} />
+        <rect className={s.fillMint} x={-22} y={2} width={20} height={20} rx={6} />
+        <rect className={s.fillAccent} x={2} y={2} width={20} height={20} rx={6} />
+      </g>
+    </>
+  );
+}
 const NET_LAYERS: ReadonlyArray<{ x: number; ys: readonly number[] }> = [
   { x: -44, ys: [-8, 12, 32] },
   { x: 0, ys: [-18, 2, 22, 42] },
@@ -164,6 +180,7 @@ export const LABEL_Y: Record<GraphNode["kind"], number> = {
   experience: 62,
   publication: 74,
   contact: 64,
+  projectsHub: 82
 };
 
 export function NodeArt({ node, initials }: { node: GraphNode; initials: string }) {
@@ -180,5 +197,7 @@ export function NodeArt({ node, initials }: { node: GraphNode; initials: string 
       return <Publication badge={node.badge} />;
     case "projects":
       return <Projects art={node.collection?.art ?? "se"} count={node.collection?.projects.length ?? 0} />;
+    case "projectsHub":
+      return <ProjectsHub />;
   }
 }

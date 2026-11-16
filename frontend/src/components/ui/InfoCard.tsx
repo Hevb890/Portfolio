@@ -2,9 +2,10 @@ import { useEffect, useRef } from "react";
 import { KIND_LABEL } from "@/components/graph/DetailLayer";
 import type { DetailItem, GraphNode } from "@/types/portfolio";
 import s from "../experience.module.css";
-import { getCollectionStats, getTopTechnologies } from "@/lib/projects";
+import { getCollectionStats, getHubOverview, getTopTechnologies } from "@/lib/projects";
 
 interface InfoCardProps {
+  nodes: readonly GraphNode[];
   node: GraphNode;
   neighbors: readonly GraphNode[];
   /** Currently selected detail item of `node`, if any. */
@@ -14,7 +15,7 @@ interface InfoCardProps {
   onOpenProjects: () => void;
 }
 
-export function InfoCard({ node, neighbors, detail, onSelect, onSelectDetail, onOpenProjects }: InfoCardProps) {
+export function InfoCard({ nodes, node, neighbors, detail, onSelect, onSelectDetail, onOpenProjects }: InfoCardProps) {
   const cardRef = useRef<HTMLElement>(null);
 
   // The card scrolls, so return to the top whenever its content changes.
@@ -51,8 +52,9 @@ export function InfoCard({ node, neighbors, detail, onSelect, onSelectDetail, on
     );
   }
 
-  const stats = node.collection ? getCollectionStats(node.collection) : node.metrics;
-  const technologies = node.collection ? getTopTechnologies(node.collection, 8) : null;
+  const overview = node.kind === "projectsHub" ? getHubOverview(nodes, node) : null;
+  const stats = node.collection ? getCollectionStats(node.collection) : (overview?.stats ?? node.metrics);
+  const technologies = node.collection ? getTopTechnologies(node.collection, 8) : (overview?.technologies ?? null);
 
   return (
     <section ref={cardRef} className={s.card} tabIndex={0} aria-live="polite" aria-labelledby="node-title">
@@ -76,11 +78,13 @@ export function InfoCard({ node, neighbors, detail, onSelect, onSelectDetail, on
             ))}
             {technologies.remaining > 0 && <li className={s.techChip}>+{technologies.remaining} more</li>}
           </ul>
-          <div className={s.links} style={{ margin: "12px 0" }}>
-            <button type="button" className={s.linkPrimary} aria-haspopup="dialog" onClick={onOpenProjects}>
-              Open projects →
-            </button>
-          </div>
+          {node.collection ? (
+            <div className={s.links} style={{ margin: "12px 0" }}>
+              <button type="button" className={s.linkPrimary} aria-haspopup="dialog" onClick={onOpenProjects}>
+                Open projects →
+              </button>
+            </div>
+          ) : null}
         </>
       ) : null}
       {node.details?.length ? (

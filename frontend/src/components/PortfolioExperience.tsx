@@ -95,7 +95,7 @@ export default function PortfolioExperience({ data }: { data: PortfolioData }) {
         <span className={s.hudMuted}>{activeIndex + 1} / {nodes.length}</span>
       </header>
 
-      <InfoCard node={activeNode} neighbors={neighbors} detail={activeDetail} onSelect={selectId} onSelectDetail={setDetailId} onOpenProjects={() => setProjectsOpen(true)} />
+      <InfoCard nodes={nodes} node={activeNode} neighbors={neighbors} detail={activeDetail} onSelect={selectId} onSelectDetail={setDetailId} onOpenProjects={() => setProjectsOpen(true)} />
       {activeNode.collection ? (
         <ProjectsDialog title={activeNode.title} collection={activeNode.collection} open={projectsOpen} onClose={closeProjects} />
       ) : null}
